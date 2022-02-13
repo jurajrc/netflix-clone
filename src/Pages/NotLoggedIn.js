@@ -1,17 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
+// Components
+import OurCards from '../components/notLoggedIn/OurCards';
+// Images
 import backLarge from '../assects/background-netflix-large.jpg'
 // style
 import styled from 'styled-components';
 
 const NotLoggedIn = () => {
+  const [isfocus, setIsfocus] = useState(false)
+
+// check input focus or not or value is 
+  const addClass = (e) => {
+    setIsfocus(true)
+  }
+  const removeClass = (e) => {
+    if(!e.target.value) {
+      setIsfocus(false)
+    }
+  }
+
   return (
     <article style={{zIndex: 0}}>
         <StyleSection>
             <div className="background">
                 <div className="img-wraper">
                   <div className="image"></div>
-                    {/* <img src={backLarge} /> */}
-                    <StyleGradient></StyleGradient>
+                    <StyleGradient />
                 </div>
             </div>
             <div className="content">
@@ -22,14 +36,14 @@ const NotLoggedIn = () => {
                 <div className="form-container">
 
                   <div className="input-container">
-                    <p className='placeholder'>Email address</p>
-                    <input type="email" name='email' />
+                    <p className={`placeholder ${isfocus ? 'focus-input' : ""}`} >Email address</p>
+                    <input onFocus={addClass} onBlur={removeClass} type="email" name='email' className='input-home' />
                   </div>
                   
                   <div className="button">
                     <button>Get Started
                     <svg viewBox="0 0 6 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M 0.61 1.312 l 0.78 -0.624 L 5.64 6 l -4.25 5.312 l -0.78 -0.624 L 4.36 6 Z" fill="white"/>
+                    <path fillRule="evenodd" clipRule="evenodd" d="M 0.61 1.312 l 0.78 -0.624 L 5.64 6 l -4.25 5.312 l -0.78 -0.624 L 4.36 6 Z" fill="white"/>
                     
                     </svg>
                     </button>
@@ -40,6 +54,8 @@ const NotLoggedIn = () => {
             </div>
         </StyleSection>
 
+        <OurCards />
+
     </article>
   )
 }
@@ -47,7 +63,7 @@ const NotLoggedIn = () => {
 const StyleSection = styled.section`
   position: relative;
   width: 100%;
-  height: 650px;
+  //height: 650px;
   border-bottom: 8px solid #222;
   padding: 70px 45px;
   
@@ -123,12 +139,20 @@ const StyleSection = styled.section`
           transform: translateY(-50%);
           font-weight: 400;
           pointer-events: none;
+          transition: 250ms all ease;
+        }
+        // change to focus input
+        .focus-input {
+          top: 25%;
+          font-size: 0.8em;
+          font-weight: 600;
         }
         input {
           min-width: 450px;
           height: 60px;
+          padding: 20px 0 0 10px;
           outline: none;
-          
+          font-weight: 500;
         }
       }
       .button {
