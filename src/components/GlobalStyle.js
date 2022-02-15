@@ -18,5 +18,10 @@ const GlobalStyle = createGlobalStyle`
         font-family: Helvetica, sans-serif;
         text-decoration: none;
     }
+    .header-logged {
+        height: 80px;
+        background: rgb(255,255,255);
+        background: linear-gradient(0deg, rgba(255,255,255,0) 2%, rgba(0,0,0,0.8) 100%);
+    }
 `
 export default GlobalStyle

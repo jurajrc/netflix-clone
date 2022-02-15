@@ -6,6 +6,7 @@ import twoImg from '../../assects/home_card/mobile-0819.jpg'
 import treeImg from '../../assects/home_card/device-pile.png'
 import m4v_ntflix from '../../assects/home_card/video-tv-0819.m4v'
 import m4v_things from '../../assects/home_card/video-devices.m4v'
+import fourImg from '../../assects/home_card/for_kids.png'
 
 const OurCards = () => {
   return (
@@ -38,7 +39,7 @@ const OurCards = () => {
 
     <StyleSection>
       <div className="card-container">
-        <div className="card-left">
+        <div className="card-left left">
           <div className="img-container">
 
             <div className="img">
@@ -47,7 +48,7 @@ const OurCards = () => {
           </div>
         </div>
 
-        <div className="card-right">
+        <div className="card-right right">
           <h1>Download your shows to watch offline.</h1>
           <h2>Save your favorites easily and always have something to watch.</h2>
         </div>
@@ -80,6 +81,25 @@ const OurCards = () => {
       </div>
         
     </StyleSection>
+
+    <StyleSection>
+      <div className="card-container">
+        <div className="card-left left">
+          <div className="img-container">
+
+            <div className="img">
+              <img src={fourImg} alt="video-tv" />
+            </div>
+          </div>
+        </div>
+
+        <div className="card-right right">
+          <h1>Create profiles for kids.</h1>
+          <h2>Send kids on adventures with their favorite characters in a space made just for them—free with your membership.</h2>
+        </div>
+      </div>
+        
+    </StyleSection>
     </>
   )
 }
@@ -97,14 +117,23 @@ const StyleSection = styled.section`
     @media (max-width: 950px) {
       flex-direction: column;
       align-items: center;
+      .left {
+        order: 2;
+      }
+      .right {
+        order: 1;
+      }
     }
 
     h1 {
       font-size: 3.125em;
       margin-bottom: 0.4rem;
       @media (max-width: 950px) {
-        
+        font-size: 2.5em;
         text-align: center;
+      }
+      @media (max-width: 550px) {
+        font-size: 1.625em;
       }
     }
     h2 {
@@ -112,7 +141,11 @@ const StyleSection = styled.section`
       margin: 0.75em 0 0.25em;
       font-weight: 400;
       @media (max-width: 950px) {
+        font-size: 1.25em;
         text-align: center;
+      }
+      @media (max-width: 550px) {
+        font-size: 1.125em;
       }
     }
     .card-left,

@@ -83,8 +83,7 @@ const StyleSection = styled.section`
       right: 0;
       bottom: 0;
       left: 0;
-      background: url(${backLarge}), #00000096;
-      background-blend-mode: difference;
+      background: url(${backLarge});
       background-position: center;
       background-size: cover;
     }
