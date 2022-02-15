@@ -1,0 +1,14 @@
+<svg width="152" height="152" viewBox="0 0 152 152" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Frame 3">
+<rect id="Rectangle 5" width="152" height="152" rx="4" fill="url(#paint0_linear_113_13)"/>
+<circle id="Ellipse 5" cx="30" cy="50" r="9" fill="white"/>
+<circle id="Ellipse 6" cx="122" cy="50" r="9" fill="white"/>
+<path id="Line 6" d="M65.9919 84.5001C90.3519 95.2543 103.897 94.9236 127.992 83.5001" stroke="white" stroke-width="5" stroke-linecap="round"/>
+</g>
+<defs>
+<linearGradient id="paint0_linear_113_13" x1="76" y1="0" x2="76" y2="152" gradientUnits="userSpaceOnUse">
+<stop stop-color="#0A72E6"/>
+<stop offset="1" stop-color="#4E98ED"/>
+</linearGradient>
+</defs>
+</svg>
