@@ -12,6 +12,7 @@ const GlobalStyle = createGlobalStyle`
         overflow-x: hidden;
         background: #000;
         font-family: Helvetica, sans-serif;
+        overflow-x: hidden;
     }
     a {
         text-decoration: none;
