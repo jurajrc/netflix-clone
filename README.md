@@ -9,3 +9,5 @@ Riešenie:
 Viem zistiť posledné vytvorené id  
 Vytvoriť pole z náhodnýmy id - na to funkciu mám  
 Na keždé id dať fetch, ošetriť ak je obsah id vymazané
+
+- stále my napadajú vaci ktoré tam treba doplniť, upraviť
