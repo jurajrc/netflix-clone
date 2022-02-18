@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 // Components
 import OurCards from '../components/notLoggedIn/OurCards';
 // Images
@@ -6,8 +6,12 @@ import backLarge from '../assects/background-netflix-large.jpg'
 // style
 import styled from 'styled-components';
 
-const NotLoggedIn = () => {
+const NotLoggedIn = ({ setLoggeding }) => {
   const [isfocus, setIsfocus] = useState(false)
+
+  useEffect(() => {
+    setLoggeding(true)
+  }, [])
 
 // check input focus or not or value is 
   const addClass = (e) => {
@@ -66,6 +70,9 @@ const StyleSection = styled.section`
   //height: 650px;
   border-bottom: 8px solid #222;
   padding: 70px 45px;
+  @media (max-width: 700px) {
+    padding: 3.12em 5%;
+  }
   
   .background {
     position: absolute;
@@ -97,6 +104,9 @@ const StyleSection = styled.section`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    @media (max-width: 500px) {
+      padding-top: 1em;
+    }
 
     h1 {
       font-size: 4rem;
@@ -106,11 +116,19 @@ const StyleSection = styled.section`
         font-size: 3.125rem;
         width: 600px;
       }
+      @media (max-width: 560px) {
+        width: 100%;
+        font-size: 1.75rem;
+      }
     }
     h2 {
       font-size: 1.5rem;
       font-weight: 400;
       margin: 1rem auto;
+      @media (max-width: 560px) {
+          font-size: 1.125rem;
+          text-align: center;
+        }
     }
   }
   form {
@@ -121,14 +139,26 @@ const StyleSection = styled.section`
       font-size: 1.2rem;
       font-weight: 400;
       text-align: center;
+      @media (max-width: 740px) {
+        font-size: 1rem;
+      }
     }
     .form-container {
+      width: 100%;
       display: flex;
       flex-direction: row;
       align-items: center;
       justify-content: center;
+      @media (max-width: 900px) {
+            flex-direction: column;
+      }
+
       .input-container {
         position: relative;
+        width: 31.26em;
+        @media (max-width: 660px) {
+          width: 100%;
+        }
 
         .placeholder {
           position: absolute;
@@ -147,31 +177,41 @@ const StyleSection = styled.section`
           font-weight: 600;
         }
         input {
-          min-width: 450px;
+          display: block;
+          width: 100%;
           height: 60px;
           padding: 20px 0 0 10px;
           outline: none;
           font-weight: 500;
+          @media (max-width: 740px) {
+            height: 45px;
+          }
+          
         }
       }
       .button {
         //min-height: 60px;
         button {
-          height: 60px;
-          line-height: 60px;
-          font-size: 1.625rem;
+          height: 2.3em;
+          line-height: 2.3em;
+          font-size: 1.625em;
           background-color: rgb(229,9,20);
           color: #fff;
           border: none;
           border-left: 1px solid #333;
-          padding: 0 1.625rem;
+          padding: 0 1em;
           cursor: pointer;
           &:hover {
             background-color: rgb(244,6,18);
           }
           svg {
-            height: 1.3rem;
-            margin-left: 0.5rem;
+            height: 0.8em;
+            margin-left: 0.5em;
+          }
+          @media (max-width: 900px) {
+            font-size: 95%;
+            margin-top: 0.8em;
+            border-radius: 0.15em;
           }
         }
       }
