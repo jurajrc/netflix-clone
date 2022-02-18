@@ -1,17 +1,41 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import logoUser from '../assects/Logged_In/user.svg'
 
-const Header = ({ ok }) => {
+const Header = ({ ok, setOk, searchMovie }) => {
+    const [search, setSearch] = useState("")
+
+const handleSubmitSearch = (e) => {
+    e.preventDefault()
+  searchMovie(search)
+  setSearch("")
+}
 
   return (
     <StyleHeader className={ok ? "header-logged" : null}>
         <div className="container">
             <div className="logo">
                 <a href="/">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="1024" height="276.742" viewBox="0 0 1024 276.742"><path d="M140.803 258.904c-15.404 2.705-31.079 3.516-47.294 5.676l-49.458-144.856v151.073c-15.404 1.621-29.457 3.783-44.051 5.945v-276.742h41.08l56.212 157.021v-157.021h43.511v258.904zm85.131-157.558c16.757 0 42.431-.811 57.835-.811v43.24c-19.189 0-41.619 0-57.835.811v64.322c25.405-1.621 50.809-3.785 76.482-4.596v41.617l-119.724 9.461v-255.39h119.724v43.241h-76.482v58.105zm237.284-58.104h-44.862v198.908c-14.594 0-29.188 0-43.239.539v-199.447h-44.862v-43.242h132.965l-.002 43.242zm70.266 55.132h59.187v43.24h-59.187v98.104h-42.433v-239.718h120.808v43.241h-78.375v55.133zm148.641 103.507c24.594.539 49.456 2.434 73.51 3.783v42.701c-38.646-2.434-77.293-4.863-116.75-5.676v-242.689h43.24v201.881zm109.994 49.457c13.783.812 28.377 1.623 42.43 3.242v-254.58h-42.43v251.338zm231.881-251.338l-54.863 131.615 54.863 145.127c-16.217-2.162-32.432-5.135-48.648-7.838l-31.078-79.994-31.617 73.51c-15.678-2.705-30.812-3.516-46.484-5.678l55.672-126.75-50.269-129.992h46.482l28.377 72.699 30.27-72.699h47.295z" fill="#d81f26"/></svg>
+                    <svg 
+                    className={ok ? "logo-logged" : null}
+                    xmlns="http://www.w3.org/2000/svg" width="1024" height="276.742" viewBox="0 0 1024 276.742"><path d="M140.803 258.904c-15.404 2.705-31.079 3.516-47.294 5.676l-49.458-144.856v151.073c-15.404 1.621-29.457 3.783-44.051 5.945v-276.742h41.08l56.212 157.021v-157.021h43.511v258.904zm85.131-157.558c16.757 0 42.431-.811 57.835-.811v43.24c-19.189 0-41.619 0-57.835.811v64.322c25.405-1.621 50.809-3.785 76.482-4.596v41.617l-119.724 9.461v-255.39h119.724v43.241h-76.482v58.105zm237.284-58.104h-44.862v198.908c-14.594 0-29.188 0-43.239.539v-199.447h-44.862v-43.242h132.965l-.002 43.242zm70.266 55.132h59.187v43.24h-59.187v98.104h-42.433v-239.718h120.808v43.241h-78.375v55.133zm148.641 103.507c24.594.539 49.456 2.434 73.51 3.783v42.701c-38.646-2.434-77.293-4.863-116.75-5.676v-242.689h43.24v201.881zm109.994 49.457c13.783.812 28.377 1.623 42.43 3.242v-254.58h-42.43v251.338zm231.881-251.338l-54.863 131.615 54.863 145.127c-16.217-2.162-32.432-5.135-48.648-7.838l-31.078-79.994-31.617 73.51c-15.678-2.705-30.812-3.516-46.484-5.678l55.672-126.75-50.269-129.992h46.482l28.377 72.699 30.27-72.699h47.295z" fill="#d81f26"/></svg>
                 </a>
             </div>
+            {ok && (
+                <MenuLoggedIn className="menu-search">
+                    <form onSubmit={handleSubmitSearch}>
+                        <input type="search" name="search" placeholder='Search...' onChange={e => setSearch(e.target.value)} value={search} />
+                    </form>
+                    <div className="setting">
+                        <img src={logoUser} alt="logo" />
+                        <div className="menu-logged">
+                            <Link onClick={() => {setOk(false)} } to="/" >LogOut</Link>
+                        </div>
+                    </div>
+                </MenuLoggedIn>
+            )}
+
             {!ok && (
                 <div className="menu">
                 <svg 
@@ -27,7 +51,6 @@ const Header = ({ ok }) => {
                         width="64" className='polygon' height="39"    viewBox="0 0 64 39" fill="none" xmlns="http://www.  w3.org/2000/svg">
                         <path d="M32 39L0.82309 0.75L63.1769 0.75L32 39Z" fill="white"/>
                     </svg>
-
                     
                     <Link  to="/login">Sign In</Link>
                 </div>
@@ -39,11 +62,16 @@ const Header = ({ ok }) => {
 
 const StyleHeader = styled.header`
     width: 100%;
-    height: 100px;
+    height: 6.25em;
     padding-top: 20px;
     position: relative;
     z-index: 2;
     background-color: transparent;
+    
+    @media (max-width: 500px) {
+        height: 5em;
+        padding-top: 0;
+    }
     
 
     .container {
@@ -52,6 +80,9 @@ const StyleHeader = styled.header`
         display: flex;
         justify-content: space-between; 
         align-items: center;
+        @media (max-width: 900px) {
+            margin: 0 2rem;
+        }
 
         select {
             border: 1px solid #aaa;
@@ -64,11 +95,15 @@ const StyleHeader = styled.header`
             appearance: none;
             pointer-events: visible;
             pointer-events: inherit;
-            
+            @media (max-width: 550px) {
+             padding: 3px 1.2rem;
+             margin-right: 1rem;
+            }
             
         }
         .menu {
             position: relative;
+            overflow: hidden;
             svg {
                 pointer-events: none;
             }
@@ -79,6 +114,9 @@ const StyleHeader = styled.header`
                 left: 10px;
                 top: 50%;
                 transform: translateY(-50%);
+                @media (max-width: 550px) {
+                    left: 5px;
+                }
             }
             .polygon {
                 width: 0.8rem;
@@ -87,6 +125,9 @@ const StyleHeader = styled.header`
                 left: 75px;
                 top: 50%;
                 transform: translateY(-50%);
+                @media (max-width: 550px) {
+                    left: 68px;
+                }
             }
             
             a {
@@ -94,7 +135,11 @@ const StyleHeader = styled.header`
                 color: #fff;
                 padding: 7px 17px;
                 border-radius: 3px;
-                
+                @media (max-width: 550px) {
+                    padding: 6px 0.5rem;
+                    position: relative;
+                    top: 1px;
+                }
             }
 
         }
@@ -102,8 +147,70 @@ const StyleHeader = styled.header`
 
     svg {
         width: 10.4375rem;
-        height: 2.8125rem
+        height: 2.8125rem;
+        @media (max-width: 1400px) {
+            width: 9em;
+        }
+        @media (max-width: 950px) {
+            width: 7em;
+        }
+        @media (max-width: 550px) {
+            width: 5em;
+        }
     }
+    .logo-logged {
+        width: 7em;
+        @media (max-width: 900px) {
+            width: 5em;
+        }
+    }
+`
+const MenuLoggedIn = styled.div`
+display: flex;
+    input {
+        width: 19em;
+        height: 2.8em;
+        padding: 0.6em 1em;
+        border: 1px solid #eeecec;
+        outline: none;
+        background: rgba(0, 0, 0, 0.7);
+        color: #999;
+        @media (max-width: 600px) {
+            width: 12em;
+        }
+        @media (max-width: 400px) {
+            width: 10em;
+        }
+    }
+    .setting {
+        position: relative;
+        cursor: pointer;
+        img {
+            width: 2.2em;
+            margin-left: 1em;
+        }
+        a {
+            font-size: 1em;
+            position: absolute;
+            color: #fff;
+            padding: 7px 17px;
+            right: 0;
+            bottom: -35px;
+            background: #000;
+            opacity: 0;
+            border: 1px solid #000;
+            //transform: translateX(100%);
+            transition: all .3s ;
+            &:hover {
+                border: 1px solid #fff;
+            }
+        }
+        &:hover a {
+            opacity: 1;
+            //transform: translateX(0%);
+        }
+    }
+
 `
 
 export default Header
