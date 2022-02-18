@@ -108,6 +108,9 @@ const StyleSection = styled.section`
   width: 100%;
   padding: 4.375em 2.8125em;
   border-bottom: 8px solid #222;
+  @media (max-width: 600px) {
+    padding: 3.12em 5%;
+  }
   
   .card-container {
     max-width: 1100px;
@@ -129,11 +132,11 @@ const StyleSection = styled.section`
       font-size: 3.125em;
       margin-bottom: 0.4rem;
       @media (max-width: 950px) {
-        font-size: 2.5em;
+        font-size: 2.5rem;
         text-align: center;
       }
       @media (max-width: 550px) {
-        font-size: 1.625em;
+        font-size: 1.625rem;
       }
     }
     h2 {
@@ -141,11 +144,11 @@ const StyleSection = styled.section`
       margin: 0.75em 0 0.25em;
       font-weight: 400;
       @media (max-width: 950px) {
-        font-size: 1.25em;
+        font-size: 1.25rem;
         text-align: center;
       }
       @media (max-width: 550px) {
-        font-size: 1.125em;
+        font-size: 1.125rem;
       }
     }
     .card-left,
