@@ -4,7 +4,7 @@ import styled from 'styled-components'
 // Images
 import backImage from '../assects/background-netflix-large.jpg'
 import { motion, AnimatePresence } from 'framer-motion'
-import { fadeInOut, fadeIn } from '../animations'
+import { fadeInOut, fadeIn, fadeInChildren } from '../animations'
 
 const LoginForm = ({ toggle,  Login, error, ok }) => {
     const [focus1, setFocus1] = useState(false)
@@ -43,9 +43,10 @@ const LoginForm = ({ toggle,  Login, error, ok }) => {
             </a>
         </header>
         <AnimatePresence>
+
         {ok && (
             <StyleLinkLoggedIn variants={fadeIn} initial="hidden" animate="show" className="link-logged-in">
-                <div className="one-user">
+                <motion.div variants={fadeInChildren} className="one-user">
                     <Link to="/logged-in" onClick={() => toggle(true)}>
                         <svg width="152" height="152" viewBox="0 0 152 152" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g id="Frame 3">
@@ -63,7 +64,7 @@ const LoginForm = ({ toggle,  Login, error, ok }) => {
                         </svg>
                     </Link>
                     <h3>Brainit</h3>
-                </div>
+                </motion.div>
 
             </StyleLinkLoggedIn>
         )}
@@ -127,19 +128,31 @@ const StyleLogged = styled.div`
 
     header {
         width: 100%;
-        height: 90px;
+        height: 5.625em;
         margin: 0 0rem;
         z-index: 2;
         position: relative;
+        @media (max-width: 740px) {
+            background: #000;
+        }
+        @media (max-width: 500px) {
+            height: 4em;
+        }
         
         a {
             display: block;
             width: 10.4375rem;
-            height: 2.8125rem;
             padding: 1.72em 0 1.72em 2em;
+            @media (max-width: 500px) {
+                padding: 1em 0 1em 2em;
+            }
+
             svg {
                 width: 10.4375rem;
                 height: 2.8125rem;
+                @media (max-width: 500px) {
+                    width: 6em;
+                }
             }
         }
     }
@@ -157,6 +170,14 @@ const StyleLogged = styled.div`
         background: rgba(0, 0, 0, 0.75);
         margin-bottom: 5.625em;
         padding: 60px 68px 40px;
+        @media (max-width: 740px) {
+            width: 100%;
+            background: #000;
+            margin-bottom: 0;
+            padding: 2.1em;
+            border-bottom: 2px solid #757575;
+            min-height: 500px;
+        }
 
         h1 {
             font-size: 2em;
