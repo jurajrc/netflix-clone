@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+// Style
 import styled from 'styled-components'
+import { styleVar } from '../styleVar'
+// Images
 import logoUser from '../assects/Logged_In/user.svg'
 
 const Header = ({ ok, setOk, searchMovie }) => {
@@ -90,7 +93,7 @@ const StyleHeader = styled.header`
             padding: 7px 1.6rem; 
             line-height: 1.3rem;
             background: rgba(0, 0, 0, 0.4);
-            color: #fff;
+            color: ${styleVar.colorText};
             margin-right: 2rem;
             appearance: none;
             pointer-events: visible;
@@ -131,8 +134,8 @@ const StyleHeader = styled.header`
             }
             
             a {
-                background: #e50914;
-                color: #fff;
+                background: ${styleVar.colorBackButton};
+                color: ${styleVar.colorALink};
                 padding: 7px 17px;
                 border-radius: 3px;
                 @media (max-width: 550px) {
@@ -201,6 +204,7 @@ display: flex;
             border: 1px solid #000;
             //transform: translateX(100%);
             transition: all .3s ;
+            pointer-events: none;
             &:hover {
                 border: 1px solid #fff;
             }
@@ -208,6 +212,7 @@ display: flex;
         &:hover a {
             opacity: 1;
             //transform: translateX(0%);
+            pointer-events: all;
         }
     }
 

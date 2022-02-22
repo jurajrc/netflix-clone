@@ -5,6 +5,7 @@ import OurCards from '../components/notLoggedIn/OurCards';
 import backLarge from '../assects/background-netflix-large.jpg'
 // style
 import styled from 'styled-components';
+import { styleVar } from '../styleVar';
 
 const NotLoggedIn = ({ setLoggeding }) => {
   const [isfocus, setIsfocus] = useState(false)
@@ -96,7 +97,7 @@ const StyleSection = styled.section`
     }
   }
   .content {
-    color: #fff;
+    color: ${styleVar.colorText};
     position: relative;
     z-index: 2;
     padding: 75px 0;
@@ -196,7 +197,7 @@ const StyleSection = styled.section`
           line-height: 2.3em;
           font-size: 1.625em;
           background-color: rgb(229,9,20);
-          color: #fff;
+          color: ${styleVar.colorALink};
           border: none;
           border-left: 1px solid #333;
           padding: 0 1em;
