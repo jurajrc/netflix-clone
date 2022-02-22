@@ -91,3 +91,14 @@ export const detailMovieAnime = {
         },
     },
 }
+
+export const loadingPulse = {
+    show: {
+        opacity: [1, 0.3],
+        transition: {
+            yoyo: Infinity,
+            duration: 0.75,
+            ease: "easeOut",
+        },
+    },
+}
