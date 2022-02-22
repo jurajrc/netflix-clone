@@ -18,35 +18,78 @@ function App() {
   const [error, setError] = useState(false)
   const [ok, setOk] = useState(false)
   const [imageBack, setImageBack] = useState("/dK12GIdhGP6NPGFssK2Fh265jyr.jpg")
-  const [randomId, setRandomId] = useState([])
+  //const [randomId, setRandomId] = useState([])
+  const [randomMovies, setRandomMovies] = useState([])
   const [detailMovie, setDetailMovie] = useState(null)
+  const [placeholderMovies, setPlaceholderMovies] = useState("Popular")
+  const [loading, setLoading] = useState(false)
  
   //const [filtered, setFiltered] = useState([])
   //const [activeGenre, setActiveGenre] = useState(0)
 
   useEffect(() => {
+    setPlaceholderMovies("Popular")
     fetchPopular()
-    setLoggeding(true)
-    pushRandom()
+    //setLoggeding(true)
+    //pushRandom()
+    //fetchRandomMovie()
   }, [])
 
   const randomIntFromInterval = (min, max) => { // min and max included 
     return Math.floor(Math.random() * (max - min + 1) + min)
   };
 
-  // načitať 10 nahodných filmo
-  const pushRandom = () => {
-    const array = []
-    for( var i = 0; i < 10; i++ ) {
-      const number = randomIntFromInterval(1, 939616)
-      array.push(number)
+  ///// načitať 10 nahodných filmo
+  // const pushRandom = () => {
+  //   const array = []
+  //   for( var i = 0; i < 10; i++ ) {
+  //     const number = randomIntFromInterval(1, 939616)
+  //     array.push(number)
+  //   }
+  //   setRandomId(array)
+  //   console.log(array);
+  // }
 
+///////////////  TEST random 
+///////////////////////////////////
+
+  const fetchRandomMovie = async () => {
+    setLoading(true)
+    const array = []
+
+    for( let i = 0; array.length < 10; i++ ) {
+      const randomNumber = randomIntFromInterval(1, 939616)
+      const movie = await getOne(randomNumber)
+
+      if(movie.backdrop_path !== null && movie.poster_path !== null && movie.status_code !== 34) {
+        console.log(i);
+        array.push(movie);
+      }
     }
-    setRandomId(array)
-    console.log(array);
+
+    setRandomMovies(array)
+    setPopular(array)
+    setPlaceholderMovies("Random")
+    setLoading(false)
   }
 
-  // change image background
+  //////////////////////////////////////
+
+  /**
+   * 
+   * @param {randomNumber} id 
+   * @returns object one movie
+   */
+  const getOne = async (id) => {
+    const data = await fetch( searchMovieURL(id) );
+    const movie = await data.json()
+    return movie  
+  }
+
+  
+  /**
+   * change image background with timeout
+   */
   const changeImage = () => {
     setTimeout(() => {
       setImageBack(popular[0].backdrop_path)
@@ -86,15 +129,24 @@ function App() {
       }
     }
 
-  // get data popular
+  
+  /**
+   * fech popular movies
+   */
   const fetchPopular = async () => {
     getMovies(POPULAR_API)
   }
 
   // get data search
+
+  /**
+   * 
+   * @param {string} searchTerm 
+   */
   const searchMovie = async (searchTerm) => {
     if(searchTerm) {
       getMovies(SEARCH_API + searchTerm)
+      setPlaceholderMovies("Found")
     }
     setDetailMovie(null)
   }
@@ -139,6 +191,8 @@ function App() {
           handleDetail={handleDetail}
           detailMovie={detailMovie}
           setDetailMovie={setDetailMovie}
+          placeholderMovies={placeholderMovies}
+          loading={loading}
         /> } />
       </Routes>
       
