@@ -1,14 +1,15 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 // Component
-import ScrollTop from '../components/ScrollTop'
 import Movie from '../components/loggedIn/Movie'
-// Stale
+import ArrowCarousel from '../components/loggedIn/ArrowCarousel'
+import ScrollTop from '../components/ScrollTop'
+// Style
 import styled from 'styled-components'
 import 'react-alice-carousel/lib/alice-carousel.css'
+import { styleVar } from '../styleVar'
 // Animation
 import { motion, AnimatePresence } from 'framer-motion'
-import { containerMovies, detailMovieAnime } from '../animations'
-import AliceCarousel from 'react-alice-carousel'
+import { containerMovies, detailMovieAnime, loadingPulse } from '../animations'
 // Image
 import closeSVG from '../assects/Logged_In/close-130px.svg'
 
@@ -19,8 +20,11 @@ const LoggedIn = ({
     changeImage,
      handleDetail, 
      detailMovie,
-     setDetailMovie
+     setDetailMovie,
+     placeholderMovies,
+     loading
 }) => {
+    const [position, setPosition] = useState(0)
 
     useEffect(() => {
       setOk(true)
@@ -28,34 +32,32 @@ const LoggedIn = ({
 
     useEffect(() => {
         changeImage()
+        setPosition(0)
     }, [popular])
 
-    const handleDragStart = (e) => e.preventDefault();
-
-    const items = popular.map(movie => (
-        <Movie 
-            key={movie.id}
-            movie={movie} 
-            handleDetail={handleDetail} 
-            onDragStart={handleDragStart}
-            role="presentation"
-        />
-    ))
-
-    // carousel
-    const responsive = {
-        0: { items: 1 },
-        568: { items: 3 },
-        1028: { items: 5 }
-    }
-    const stagePadding = { 
-        paddingLeft : 10 ,      // v pixeloch 
-        paddingRight : 10 
-    }
+    // control move carousel-movies
+    const handleArrow = (e) => {
+      //console.log(e.target.className);
+      const arrow = e.target.className
+      if(arrow === "arrow arrow-right") {
+          setPosition(position + 10.3);
+      };
+      if (arrow === "arrow arrow-left") {
+          setPosition(position - 10.3);
+      };
+    };
 
   return (
     <StyleArticle>
+
         <img className='image-back' src={`https://image.tmdb.org/t/p/original${imageBack}`} alt="img" />
+
+        {loading && (
+            <div className="container-loading">
+                <motion.h2 variants={loadingPulse} animate="show" className='loading'>Loading movies...</motion.h2>
+            </div>
+        )}
+
         <AnimatePresence>
             {detailMovie && (
                 <motion.div 
@@ -65,7 +67,7 @@ const LoggedIn = ({
                     animate="show"
                     exit="exit"
                 >
-                    <img className='small-image' src={`https://image.tmdb.org/t/p/w500${imageBack}`} alt="image" />
+                    <img className='small-image' src={`https://image.tmdb.org/t/p/w500${imageBack}`} alt="image_detail" />
                     <div className="movie-title">
                         <h1>{detailMovie.title} - {detailMovie.release_date.slice(0,4)}</h1>
                         <h4>Žáner: {detailMovie.genres.map(g => (<span key={g.id}> {g.name},</span>))}</h4>
@@ -91,22 +93,21 @@ const LoggedIn = ({
                     initial="hidden"
                     animate="show"
                 >
-                    {popular.map(movie => (
-                        <Movie key={movie.id} movie={movie} handleDetail={handleDetail} />
-                    ))}
+                    <p className='placeholder-movies'>{placeholderMovies} movies <span>
+                        <ArrowCarousel nameClass="placeholder-arrow" />
+                        </span></p>
+                    <div className="movies-carousel">
+                                 
+                        {position > 0 && <ArrowCarousel nameClass="arrow arrow-left" click={handleArrow} />}
+                        
 
-                    {/* <AliceCarousel 
-                        mouseTracking
-                        items={items}
-                        //responsive={responsive}
-                        stagePadding={stagePadding}
-                        disableButtonsControls
-                        keyboardNavigation
-                        controlsStrategy='alternate'
-                        autoWidth
-                        showArrows={true}
-                    /> */}
-
+                        {popular.map(movie => (
+                            <Movie key={movie.id} movie={movie} handleDetail={handleDetail} position={position} />
+                        ))}
+                        
+                        <ArrowCarousel nameClass="arrow arrow-right" click={handleArrow} />
+                        
+                    </div>
                     
                 </motion.div>
             )}
@@ -120,22 +121,29 @@ const StyleArticle = styled.article`
     min-height: 60vh;
     position: relative;
 
-    //.image-back
-    img {
+    .image-back {
         width: 100%;
         height: 100%;
         object-fit: cover;
         position: relative;
         top: -6.25em;
-        
     }
-    .small-image {
-        display: none;
+
+    .container-loading {
+        position: absolute;
+        width: 100%;
+        height: 100%;
         top: 0;
-        @media (max-width: 850px) {
-            display: block;
+        left: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        h2 {
+            color: #fff;
+            margin-bottom: 5em;
         }
     }
+    
     .detail-movie {
         position: absolute;
         top: 4vw;
@@ -147,7 +155,18 @@ const StyleArticle = styled.article`
         border-radius: 0.5em;
         overflow: hidden;
         z-index: 5;
-        transition: 300ms ease;
+        transition: ${styleVar.transition};
+        .small-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: relative;
+            display: none;
+            
+            @media (max-width: 850px) {
+                display: block;
+            }
+        }
         .movie-title {
             padding: 1em;
         }
@@ -161,8 +180,8 @@ const StyleArticle = styled.article`
             top: 3vw;
             &:hover {
                 background: #222;
-        }
-        }
+            }
+        } 
         @media (max-width: 550px) {
             margin: 0 2%;
             min-width: 96%;
@@ -194,29 +213,102 @@ const StyleArticle = styled.article`
     }
 
     .movies {
-        width: 100%;
-
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-        grid-column-gap: 1rem;
-        grid-row-gap: 1rem;
         
+        display: flex;
+        flex-direction: column;
         position: relative;
-        transition: 300ms ease;
-        transform: translateY(-18em);
-        padding: 0 1em;
+        transition: ${styleVar.transition};
+        transform: translateY(-26em);
+        //padding: 0 0.1em;
+        overflow-x: hidden;
+        
+        .placeholder-movies {
+            color: ${styleVar.colorText};
+            margin: 0.6em 2.4em;
+            display: flex;
+            .placeholder-arrow {
+                height: 0.8em;
+                margin-top: 2px;
+                opacity: 0;
+                svg {
+                    height: 100%;
+                }
+            }
+        }
+
+        .movies-carousel {
+            display: flex;
+            //overflow-x: scroll;
+            padding: 1em 0;
+            padding: 0 2.1em;
+            position: relative;
+            left: 0em;
+        }
+        .arrow {
+            position: absolute;
+            height: 16em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 5;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 0 0.5em;
+            cursor: pointer;
+            transition: ${styleVar.transition} ;
+            opacity: 0;
+            border-radius: 0 0.3em 0.3em 0;
+            @media (max-width: 550px) {
+                height: 10em;
+    }
+            &:hover {
+                background: rgba(0, 0, 0, 0.6);
+            }
+            svg {
+                transition: ${styleVar.transition};
+                pointer-events: none;
+            }
+            &:hover svg {
+                transform: scale(1.2);
+            }
+        }
+
+        .arrow-left {
+            left: 0;
+            
+        }
+
+        .arrow-right {
+            right: 0;
+            transform: rotate(180deg);
+        }
+
+        &:hover .arrow,
+        &:hover .placeholder-arrow {
+            opacity: 1;
+        }
         @media (max-width: 1200px) {
-            transform: translateY(-10em)
+            transform: translateY(-18em)
         }
         @media (max-width: 900px) {
-            transform: translateY(-2em)
+            transform: translateY(-10em)
         }
         @media (max-width: 550px) {
-            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            transform: translateY(-5em)
         }
+        
+
     }
     .not-up {
         @media (max-width: 1400px) {
+            transform: translateY(-16em)
+        }
+        @media (max-width: 1200px) {
+            transform: translateY(-12em)
+        }
+        @media (max-width: 1000px) {
+            transform: translateY(-6em)
+        }
+        @media (max-width: 900px) {
             transform: translateY(-2em)
         }
         
